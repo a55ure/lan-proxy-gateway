@@ -2,6 +2,7 @@ package config
 
 import (
 	"os"
+	"runtime"
 
 	"gopkg.in/yaml.v3"
 )
@@ -35,6 +36,12 @@ type ChainProxyConfig struct {
 }
 
 func DefaultConfig() *Config {
+	// macOS 上端口 53 通常被系统占用，使用 5353
+	dnsPort := 53
+	if runtime.GOOS == "darwin" {
+		dnsPort = 5353
+	}
+
 	return &Config{
 		ProxySource:      "url",
 		SubscriptionName: "subscription",
@@ -42,7 +49,7 @@ func DefaultConfig() *Config {
 			Mixed: 7890,
 			Redir: 7892,
 			API:   9090,
-			DNS:   53,
+			DNS:   dnsPort,
 		},
 	}
 }

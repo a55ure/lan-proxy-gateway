@@ -3,6 +3,7 @@ package template
 import (
 	"fmt"
 	"os"
+	"runtime"
 	"strconv"
 	"strings"
 
@@ -15,12 +16,27 @@ import (
 func RenderTemplate(cfg *config.Config, iface, ip, outputPath string) error {
 	result := embed.TemplateContent
 
+	// 根据平台动态设置 redir-port
+	// macOS 不支持 redir 模式，只使用 TUN
+	redirPortLine := ""
+	if runtime.GOOS == "linux" {
+		redirPortLine = fmt.Sprintf("redir-port: %d", cfg.Ports.Redir)
+	}
+	result = strings.ReplaceAll(result, "{{REDIR_PORT_LINE}}", redirPortLine)
+
+	// macOS 上 DNS 端口 53 通常被系统占用，使用其他端口
+	dnsListenPort := cfg.Ports.DNS
+	if runtime.GOOS == "darwin" && dnsListenPort == 53 {
+		// 检查端口 53 是否可用，如果不可用则使用 5353
+		dnsListenPort = 5353
+	}
+
 	replacements := map[string]string{
 		"{{MIXED_PORT}}":        strconv.Itoa(cfg.Ports.Mixed),
 		"{{REDIR_PORT}}":        strconv.Itoa(cfg.Ports.Redir),
 		"{{API_PORT}}":          strconv.Itoa(cfg.Ports.API),
 		"{{API_SECRET}}":        cfg.APISecret,
-		"{{DNS_LISTEN_PORT}}":   strconv.Itoa(cfg.Ports.DNS),
+		"{{DNS_LISTEN_PORT}}":   strconv.Itoa(dnsListenPort),
 		"{{SUBSCRIPTION_URL}}":  cfg.SubscriptionURL,
 		"{{SUBSCRIPTION_NAME}}": cfg.SubscriptionName,
 		"{{LAN_INTERFACE}}":     iface,

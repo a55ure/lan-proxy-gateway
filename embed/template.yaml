@@ -3,7 +3,7 @@
 # 敏感信息（订阅链接）存放在 .secret 文件中，不会进入 Git
 
 mixed-port: {{MIXED_PORT}}
-redir-port: {{REDIR_PORT}}
+{{REDIR_PORT_LINE}}
 allow-lan: true
 bind-address: '*'
 mode: rule
