@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-REPO="Tght1211/lan-proxy-gateway"
+REPO="a55ure/lan-proxy-gateway"
 BINARY="gateway"
 # 可通过环境变量指定镜像前缀，如 GITHUB_MIRROR=https://hub.gitmirror.com/
 GITHUB_MIRROR="${GITHUB_MIRROR:-}"

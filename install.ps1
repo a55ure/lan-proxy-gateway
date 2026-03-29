@@ -1,6 +1,6 @@
 $ErrorActionPreference = "Stop"
 
-$Repo = "Tght1211/lan-proxy-gateway"
+$Repo = "a55ure/lan-proxy-gateway"
 $Binary = "gateway.exe"
 $InstallDir = "$env:LOCALAPPDATA\Programs\gateway"
 $GHMirror = if ($env:GITHUB_MIRROR) { $env:GITHUB_MIRROR } else { "" }

@@ -17,7 +17,7 @@ import (
 )
 
 const (
-	repo    = "Tght1211/lan-proxy-gateway"
+	repo    = "a55ure/lan-proxy-gateway"
 	apiBase = "https://api.github.com/repos/" + repo
 )
 
