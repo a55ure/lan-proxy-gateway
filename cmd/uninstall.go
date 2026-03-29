@@ -50,7 +50,8 @@ func runUninstall(cmd *cobra.Command, args []string) {
 	// Step 1: Check if running
 	ui.Step(1, 4, "检查网关状态...")
 	p := platform.New()
-	if p.IsRunning() {
+	running, _, _ := p.IsRunning()
+	if running {
 		ui.Warn("网关正在运行，正在停止...")
 		runStop(cmd, args)
 	}
@@ -141,8 +142,6 @@ func runUninstall(cmd *cobra.Command, args []string) {
 }
 
 func uninstallService() {
-	p := platform.New()
-	
 	switch runtime.GOOS {
 	case "darwin":
 		// Remove launchd plist
