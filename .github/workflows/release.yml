@@ -12,17 +12,71 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - uses: actions/setup-go@v5
+      - name: Setup Go
+        uses: actions/setup-go@v5
         with:
           go-version: '1.24'
+          cache: true
 
       - name: Build all platforms
         run: make build-all
+
+      - name: List built binaries
+        run: ls -lh dist/
+
+      - name: Verify binaries
+        run: |
+          echo "Checking binary files..."
+          for file in dist/*; do
+            if [ -f "$file" ]; then
+              echo "✓ $(basename $file) - $(du -h $file | cut -f1)"
+            fi
+          done
 
       - name: Create release
         uses: softprops/action-gh-release@v2
         with:
           generate_release_notes: true
+          draft: false
+          prerelease: false
           files: dist/*
+          body: |
+            ## LAN Proxy Gateway ${{ github.ref_name }}
+
+            ### 📦 下载
+
+            | 平台 | 文件 |
+            |------|------|
+            | macOS (Apple Silicon) | `gateway-darwin-arm64` |
+            | macOS (Intel) | `gateway-darwin-amd64` |
+            | Linux (x86_64) | `gateway-linux-amd64` |
+            | Linux (ARM64) | `gateway-linux-arm64` |
+            | Windows (x86_64) | `gateway-windows-amd64.exe` |
+
+            ### 🚀 安装方法
+
+            **Linux/macOS:**
+            ```bash
+            # 下载对应平台的二进制文件
+            curl -L -o gateway https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/gateway-linux-amd64
+            
+            # 添加执行权限
+            chmod +x gateway
+            
+            # 移动到系统路径
+            sudo mv gateway /usr/local/bin/
+            
+            # 运行安装向导
+            sudo gateway install
+            ```
+
+            **Windows:**
+            下载 `gateway-windows-amd64.exe` 并重命名为 `gateway.exe`
+
+            ### 📝 更新日志
+            见下方自动生成的 release notes
