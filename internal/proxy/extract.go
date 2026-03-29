@@ -21,6 +21,7 @@ func ExtractProxies(inputPath, outputPath string) (int, error) {
 	found := false
 	count := 0
 	inProxiesSection := false
+	lastLineWasDash := false
 
 	scanner := bufio.NewScanner(in)
 	for scanner.Scan() {
@@ -49,19 +50,28 @@ func ExtractProxies(inputPath, outputPath string) (int, error) {
 
 			// 检测代理节点 - 支持多种格式
 			if strings.HasPrefix(trimmedLine, "-") {
-				// 格式1: - name: xxx（标准格式）
-				if strings.Contains(trimmedLine, "name:") {
-					count++
-				} else if strings.Contains(trimmedLine, "{") && strings.Contains(trimmedLine, "name:") {
-					// 格式2: - {name: xxx, ...}（行内格式）
-					count++
-				} else if strings.Contains(trimmedLine, "server:") || strings.Contains(trimmedLine, "type:") {
-					// 格式3: - server: xxx 或 - type: xxx（其他字段开头）
-					// 只在还没有计数的情况下计数
-					if count == 0 || !strings.Contains(trimmedLine, "name:") {
+				// 检查是否是单独的 "-"（多行格式的开始）
+				if trimmedLine == "-" {
+					lastLineWasDash = true
+				} else {
+					// 格式1: - name: xxx（行内格式）
+					if strings.Contains(trimmedLine, "name:") {
+						count++
+					} else if strings.Contains(trimmedLine, "{") && strings.Contains(trimmedLine, "name:") {
+						// 格式2: - {name: xxx, ...}
 						count++
 					}
+					lastLineWasDash = false
 				}
+			} else if lastLineWasDash && strings.Contains(trimmedLine, "name:") {
+				// 格式3: 多行格式，上一行是 "-"，这一行是 "name: xxx"
+				count++
+				lastLineWasDash = false
+			} else if lastLineWasDash && (strings.Contains(trimmedLine, "server:") || strings.Contains(trimmedLine, "type:")) {
+				// 格式4: 多行格式，但 name 在 server 或 type 之后
+				// 这种情况下需要往前查找 name
+				count++
+				lastLineWasDash = false
 			}
 		}
 
