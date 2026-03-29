@@ -69,22 +69,22 @@ macOS / Linux:
 
 ```bash
 # 国际网络
-curl -fsSL https://raw.githubusercontent.com/Tght1211/lan-proxy-gateway/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/a55ure/lan-proxy-gateway/main/install.sh | bash
 
 # 国内镜像（二选一）
-curl -fsSL https://raw.gitmirror.com/Tght1211/lan-proxy-gateway/main/install.sh | bash
-curl -fsSL https://mirror.ghproxy.com/https://raw.githubusercontent.com/Tght1211/lan-proxy-gateway/main/install.sh | bash
+curl -fsSL https://raw.gitmirror.com/a55ure/lan-proxy-gateway/main/install.sh | bash
+curl -fsSL https://mirror.ghproxy.com/https://raw.githubusercontent.com/a55ure/lan-proxy-gateway/main/install.sh | bash
 ```
 
 Windows (PowerShell):
 
 ```powershell
 # 国际网络
-irm https://raw.githubusercontent.com/Tght1211/lan-proxy-gateway/main/install.ps1 | iex
+irm https://raw.githubusercontent.com/a55ure/lan-proxy-gateway/main/install.ps1 | iex
 
 # 国内镜像（二选一）
-irm https://raw.gitmirror.com/Tght1211/lan-proxy-gateway/main/install.ps1 | iex
-irm https://mirror.ghproxy.com/https://raw.githubusercontent.com/Tght1211/lan-proxy-gateway/main/install.ps1 | iex
+irm https://raw.gitmirror.com/a55ure/lan-proxy-gateway/main/install.ps1 | iex
+irm https://mirror.ghproxy.com/https://raw.githubusercontent.com/a55ure/lan-proxy-gateway/main/install.ps1 | iex
 ```
 
 脚本会自动检测网络环境，GitHub 直连超时时自动切换镜像下载二进制文件。macOS 安装到 `/usr/local/bin`，Linux 安装到 `/usr/local/bin` 或 `~/.local/bin`，Windows 安装到 `%LOCALAPPDATA%\Programs\gateway`。
@@ -95,7 +95,7 @@ irm https://mirror.ghproxy.com/https://raw.githubusercontent.com/Tght1211/lan-pr
 > ```bash
 > # 1. 复制以下内容到 download-mihomo.sh 并保存
 > vim download-mihomo.sh
-> # 粘贴 https://raw.githubusercontent.com/Tght1211/lan-proxy-gateway/main/download-mihomo.sh 内容
+> # 粘贴 https://raw.githubusercontent.com/a55ure/lan-proxy-gateway/main/download-mihomo.sh 内容
 > chmod +x download-mihomo.sh
 > ./download-mihomo.sh
 > ```
@@ -104,7 +104,7 @@ irm https://mirror.ghproxy.com/https://raw.githubusercontent.com/Tght1211/lan-pr
 > ```bash
 > # 2. 复制以下内容到 install.sh 并保存
 > vim install.sh
-> # 粘贴 https://raw.githubusercontent.com/Tght1211/lan-proxy-gateway/main/install.sh 内容
+> # 粘贴 https://raw.githubusercontent.com/a55ure/lan-proxy-gateway/main/install.sh 内容
 > chmod +x install.sh
 > ./install.sh
 > ```
@@ -120,7 +120,7 @@ irm https://mirror.ghproxy.com/https://raw.githubusercontent.com/Tght1211/lan-pr
 
 **方式二：手动下载**
 
-从 [Releases](https://github.com/Tght1211/lan-proxy-gateway/releases) 下载对应你系统的文件：
+从 [Releases](https://github.com/a55ure/lan-proxy-gateway/releases) 下载对应你系统的文件：
 
 | 你的电脑 | 下载哪个文件 |
 |----------|-------------|
@@ -143,7 +143,7 @@ sudo mv gateway-* /usr/local/bin/gateway   # 移到 PATH 中
 **方式三：从源码编译**（需要 [Go 1.21+](https://go.dev/dl/)）
 
 ```bash
-git clone https://github.com/Tght1211/lan-proxy-gateway.git
+git clone https://github.com/a55ure/lan-proxy-gateway.git
 cd lan-proxy-gateway
 make install   # 编译并安装到 /usr/local/bin（会要求输入 sudo 密码）
 ```
