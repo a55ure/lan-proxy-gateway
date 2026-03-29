@@ -49,7 +49,7 @@ func downloadMihomo() error {
 
 	// Get latest version (hardcoded to avoid dependency)
 	version := "v1.19.8"
-	url := fmt.Sprintf("https://github.com/MetaCubeX/mihomo/releases/download/%s/mihomo-%s", version, mihomoArch)
+	url := fmt.Sprintf("https://github.com/MetaCubeX/mihomo/releases/download/%s/mihomo-%s.gz", version, mihomoArch)
 
 	// Try mirrors in order
 	mirrors := []string{
